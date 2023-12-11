@@ -1,9 +1,12 @@
 
 import { Ionicons } from '@expo/vector-icons';
-import { useFonts } from 'expo-font';
-import { SplashScreen, Stack, useRouter } from 'expo-router';
+import { isLoaded, useFonts } from 'expo-font';
+import { Redirect, SplashScreen, Stack, useRouter } from 'expo-router';
 import { useEffect, useReducer } from 'react';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as SecureStore from 'expo-secure-store';
+import { useAuth } from './context/authContext';
+import { AuthProvider } from './context/authContext';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -19,6 +22,8 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+
+
   const [loaded, error] = useFonts({
     'mon': require('../assets/fonts/Montserrat-Regular.ttf'),
     'mon-sb': require('../assets/fonts/Montserrat-SemiBold.ttf'),
@@ -33,7 +38,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
-      SplashScreen.hideAsync();
+      
     }
   }, [loaded]);
 
@@ -41,27 +46,40 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <AuthProvider>
+      <RootLayoutNav />
+    </AuthProvider>
+  )
 }
 
 function RootLayoutNav() {
   const router = useRouter();
+  
+  const {authState, onLogout } = useAuth();
+
+  useEffect(() => {
+    if(!authState?.loading) {
+      if(!authState?.authenticated){
+        router.replace('/screens/login')
+      }  
+      SplashScreen.hideAsync();
+    }
+
+  }, [authState])
+
+
   return (
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen 
-          name="(modals)/login" 
+          name="screens/login" 
           options={{ 
           title: 'Log in or sign up',
           headerTitleStyle: {
             fontFamily: 'mon-sb'
           },
-          presentation: 'modal',
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => router.back()}>
-              <Ionicons name='close-outline' size={28} />
-            </TouchableOpacity>
-          )
+
          }} 
         />
         <Stack.Screen 
@@ -83,3 +101,4 @@ function RootLayoutNav() {
       </Stack>
   );
 }
+

@@ -1,11 +1,20 @@
 import { View, Text } from 'react-native'
-import React from 'react'
-import { Tabs } from 'expo-router'
+import React, { useEffect } from 'react'
+import { Tabs, useNavigation, useRouter } from 'expo-router'
 import Colors from '@/constants/Colors'
 import { FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons'
 import { Ionicons } from '@expo/vector-icons'
+import { useAuth } from '../context/authContext'
 
 const Layout = () => {
+	const router = useRouter();
+  const {authState, onLogout } = useAuth();
+  
+
+ 
+
+	
+
   return (
     <Tabs
 		screenOptions={{
@@ -13,6 +22,7 @@ const Layout = () => {
 		tabBarLabelStyle:{
 			fontFamily: 'mon-sb'
 		}
+		
 		}}  
     >
 		<Tabs.Screen 

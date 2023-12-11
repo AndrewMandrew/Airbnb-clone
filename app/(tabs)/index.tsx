@@ -1,13 +1,17 @@
-import { View, Text } from 'react-native'
+import { View, Text, Button } from 'react-native'
 import React from 'react'
 import { Link } from 'expo-router'
+import { useAuth } from '../context/authContext';
 
 const Page = () => {
+
+  const {onLogout} = useAuth();
   return (
     <View>
-      <Link href={"/(modals)/login"}> Login </Link>
+      <Link href={"/screens/login"}> Login </Link>
       <Link href={"/(modals)/booking"}> Booking </Link>
       <Link href={"/listing/123"}> Listing details </Link>
+      <Button onPress={onLogout} title='Logout'/>
     </View>
   )
 }
