@@ -34,6 +34,7 @@ export default function RootLayout() {
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
+      SplashScreen.hideAsync();
   }, [error]);
 
   useEffect(() => {
@@ -55,19 +56,6 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const router = useRouter();
-  
-  const {authState, onLogout } = useAuth();
-
-  useEffect(() => {
-    if(!authState?.loading) {
-      if(!authState?.authenticated){
-        router.replace('/screens/login')
-      }  
-      SplashScreen.hideAsync();
-    }
-
-  }, [authState])
-
 
   return (
       <Stack>
@@ -76,6 +64,7 @@ function RootLayoutNav() {
           name="screens/login" 
           options={{ 
           title: 'Log in or sign up',
+          animation: "none",
           headerTitleStyle: {
             fontFamily: 'mon-sb'
           },
