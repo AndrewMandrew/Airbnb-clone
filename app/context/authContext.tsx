@@ -9,6 +9,7 @@ interface AuthProps {
     onRegister?: (email: string, password: string) => Promise<any>;
     onLogin?: (email: string, password: string) => Promise<any>;
     onLogout?: () => Promise<any>;
+    setAuthState?: (bj: any) => any;
 }
 
 const TOKEN_KEY = "my-jwt";
@@ -51,9 +52,7 @@ export const AuthProvider = ({children}: any) => {
             }
             const decodedToken = useJwt(refreshToken!)
                 console.log("🚀 ~ file: authContext.tsx:47 ~ loadToken ~ decodedToken:", decodedToken.exp)
-                
-                
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                               
 
                 setAuthState({
                     token: token,
@@ -120,6 +119,7 @@ export const AuthProvider = ({children}: any) => {
         onLogin: login,
         onLogout: logout,
         authState,
+        setAuthState,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

@@ -7,6 +7,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as SecureStore from 'expo-secure-store';
 import { useAuth } from './context/authContext';
 import { AuthProvider } from './context/authContext';
+import { AxiosProvider } from './context/axiosContext';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -49,7 +50,9 @@ export default function RootLayout() {
 
   return (
     <AuthProvider>
-      <RootLayoutNav />
+      <AxiosProvider>
+        <RootLayoutNav />
+      </AxiosProvider>
     </AuthProvider>
   )
 }
