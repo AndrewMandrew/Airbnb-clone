@@ -63,9 +63,7 @@ function RootLayoutNav() {
         options={{
           title: "Log in or sign up",
           animation: "none",
-          headerTitleStyle: {
-            fontFamily: "mon-sb",
-          },
+          headerTitleStyle: {},
         }}
       />
       <Stack.Screen name="listing/[id]" options={{ headerTitle: "" }} />
